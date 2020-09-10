@@ -13,6 +13,7 @@ const PORT=process.env.PORT||5000;
 
       app.use(express.json())
       app.use(require('./routes/Auth'));
+      app.use(require('./routes/user'))
 
       app.get('/test',requireLogin,(req,res)=>{
         res.send('secret page')

@@ -16,14 +16,10 @@ var UserSchema=new mongoose.Schema({
         required:true
     },
     friendList:[{
-    user:{
         type:ObjectId,
         ref:'Users'
-        },
-    room:{
-        type:String
-        }
-    }]
+        }]
+
 });
 
 module.exports=mongoose.model('Users',UserSchema);
