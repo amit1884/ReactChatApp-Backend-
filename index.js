@@ -6,7 +6,6 @@ const socketio=require('socket.io');
 const http=require('http');
 const requireLogin = require('./Middleware/requireLogin');
 const Messages=require('./Models/Messages');
-const { callbackify } = require('util');
 const PORT=process.env.PORT||5000;
 
       app=express();
@@ -22,14 +21,24 @@ const PORT=process.env.PORT||5000;
       })
 const server=http.createServer(app);
 const io=socketio(server);
-    var prevChat=[];
-      mongoose.connect('mongodb://localhost/ChatInReact',{useNewUrlParser: true,useUnifiedTopology: true })
-        .then(()=>{
-        console.log('databse connected')
-        })     
-        .catch(()=>{
-            console.log(' database not connected')
-        });
+
+//Local db connection
+    //   mongoose.connect('mongodb://localhost/ChatInReact',{useNewUrlParser: true,useUnifiedTopology: true })
+    //     .then(()=>{
+    //     console.log('databse connected')
+    //     })     
+    //     .catch(()=>{
+    //         console.log(' database not connected')
+    //     });
+//Remote db connection
+mongoose.connect(process.env.MONGOURI,{useNewUrlParser: true,useUnifiedTopology: true })
+.then(()=>{
+    console.log('databse connected')
+})
+.catch(()=>{
+    console.log(' database not connected')
+});
+
 
         app.get('/oldmessages/:room',(req,res)=>{
             console.log('aayaa............')
