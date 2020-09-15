@@ -16,9 +16,15 @@ var UserSchema=new mongoose.Schema({
         required:true
     },
     friendList:[{
-        type:ObjectId,
-        ref:'Users'
-        }]
+        users:{
+            type:ObjectId,
+            ref:'Users'
+        },
+        room:{
+            type:String,
+            default:'CommonRoom'
+        }
+    }]
 
 });
 

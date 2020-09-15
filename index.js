@@ -5,6 +5,8 @@ const express=require('express'),
 const socketio=require('socket.io');
 const http=require('http');
 const requireLogin = require('./Middleware/requireLogin');
+const Messages=require('./Models/Messages');
+const { callbackify } = require('util');
 const PORT=process.env.PORT||5000;
 
       app=express();
@@ -20,7 +22,7 @@ const PORT=process.env.PORT||5000;
       })
 const server=http.createServer(app);
 const io=socketio(server);
-
+    var prevChat=[];
       mongoose.connect('mongodb://localhost/ChatInReact',{useNewUrlParser: true,useUnifiedTopology: true })
         .then(()=>{
         console.log('databse connected')
@@ -29,13 +31,40 @@ const io=socketio(server);
             console.log(' database not connected')
         });
 
+        app.get('/oldmessages/:room',(req,res)=>{
+            console.log('aayaa............')
+            Messages.find({room:req.params.room},(err,oldChat)=>{
+                if(err)
+                console.log(err)
+                else{
+                    console.log('oldChat : ')
+                    res.json(oldChat)
+                }
+            })
+        })
         io.on('connection',(socket)=>{
 
-                socket.emit('testmessage',{text:"hello world"})
-                
+               socket.on('join',({id,friend,room},callback)=>{
+                    
+                console.log('join the room',room)
+                    socket.join(room);
+                    callback();
+               })              
                 socket.on('sendmessage',(data)=>{
-                    console.log(data)
-                    io.emit('message',(data))
+                     console.log(data.room)
+                    io.to(data.room).emit('message',(data))
+                    const chat={
+                        room:data.room,
+                        sender:data.sender,
+                        text:data.text
+                    }
+                    const Msg=new Messages(chat);
+
+                    Msg.save()
+                    .then(result=>{
+                        console.log('message saved ')
+                    })
+                    .catch(err=>console.log(err))
                 })
         })
 
