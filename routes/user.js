@@ -81,4 +81,33 @@ router.get('/getfriends',requireLogin,(req,res)=>{
     .catch(err=>console.log(err))
 })
 
+
+router.get('/userprofile/:id',requireLogin,(req,res)=>{
+
+    const userid=req.body.params;
+
+    User.findById(userid)
+    .then(result=>{
+        // console.log(result)
+        res.json(result)
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+router.get('/friendprofile/:id',requireLogin,(req,res)=>{
+
+    const userid=req.body.params;
+
+    User.findById(userid)
+    .then(result=>{
+        // console.log(result)
+        res.json(result)
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
 module.exports=router;
