@@ -18,32 +18,46 @@ router.post('/signup',(req,res)=>{
         })
     }
 
-    User.findOne({email:email})
-    .then(savedUser=>{
-        
-        if(savedUser){
-            return res.json({message:"Already Exist"});
-        }
-        bcrypt.hash(password,12)
-        .then(hashedpassword=>{
-
-            const user=new User({
-                email,
-                password:hashedpassword,
-                username,
+    User.findOne({username:username})
+    .then(result=>{
+        if(result)
+        {
+            console.log(result)
+            return res.status(422).json({
+                error:"Username Taken"
             })
-            user.save()
-            .then(user=>{
-                res.json({message:"Successfully saved"})
+        }
+        else{
+
+            User.findOne({email:email})
+            .then(savedUser=>{
+                
+                if(savedUser){
+                    return res.json({message:"Already Exist"});
+                }
+                bcrypt.hash(password,12)
+                .then(hashedpassword=>{
+        
+                    const user=new User({
+                        email,
+                        password:hashedpassword,
+                        username,
+                    })
+                    user.save()
+                    .then(user=>{
+                        res.json({message:"Successfully saved"})
+                    })
+                    .catch(err=>{
+                        console.log(err)
+                    })
+                })
             })
             .catch(err=>{
                 console.log(err)
             })
-        })
+        }
     })
-    .catch(err=>{
-        console.log(err)
-    })
+    .catch(err=>console.log(err))
 })
 
 router.post("/signin",(req,res)=>{
