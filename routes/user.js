@@ -84,11 +84,11 @@ router.get('/getfriends',requireLogin,(req,res)=>{
 
 router.get('/userprofile/:id',requireLogin,(req,res)=>{
 
-    const userid=req.body.params;
-
+    const userid=req.params.id;
+    console.log(userid)
     User.findById(userid)
     .then(result=>{
-        // console.log(result)
+        console.log(result)
         res.json(result)
     })
     .catch(err=>{
@@ -98,7 +98,7 @@ router.get('/userprofile/:id',requireLogin,(req,res)=>{
 
 router.get('/friendprofile/:id',requireLogin,(req,res)=>{
 
-    const userid=req.body.params;
+    const userid=req.params.id;
 
     User.findById(userid)
     .then(result=>{
