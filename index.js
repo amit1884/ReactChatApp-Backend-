@@ -23,21 +23,21 @@ const server=http.createServer(app);
 const io=socketio(server);
 
 //Local db connection
-    //   mongoose.connect('mongodb://localhost/ChatInReact',{useNewUrlParser: true,useUnifiedTopology: true })
-    //     .then(()=>{
-    //     console.log('databse connected')
-    //     })     
-    //     .catch(()=>{
-    //         console.log(' database not connected')
-    //     });
+      mongoose.connect('mongodb://localhost/ChatInReact',{useNewUrlParser: true,useUnifiedTopology: true })
+        .then(()=>{
+        console.log('databse connected')
+        })     
+        .catch(()=>{
+            console.log(' database not connected')
+        });
 //Remote db connection
-mongoose.connect(process.env.MONGOURI,{useNewUrlParser: true,useUnifiedTopology: true })
-.then(()=>{
-    console.log('databse connected')
-})
-.catch(()=>{
-    console.log(' database not connected')
-});
+// mongoose.connect(process.env.MONGOURI,{useNewUrlParser: true,useUnifiedTopology: true })
+// .then(()=>{
+//     console.log('databse connected')
+// })
+// .catch(()=>{
+//     console.log(' database not connected')
+// });
 
         app.get('/',(req,res)=>{
             res.send('Welcome to the Chat App Api')

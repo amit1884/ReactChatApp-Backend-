@@ -15,6 +15,11 @@ var UserSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    pic:{
+
+        type:String,
+        default:'http://res.cloudinary.com/webarts/image/upload/v1600350095/unchfgreyapn4uqrcxyi.png'
+    },
     friendList:[{
         users:{
             type:ObjectId,

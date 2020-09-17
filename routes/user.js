@@ -110,4 +110,16 @@ router.get('/friendprofile/:id',requireLogin,(req,res)=>{
     })
 })
 
+router.post('/uploadpic',requireLogin,(req,res)=>{
+
+    const picurl=req.body.pic;
+    console.log(picurl)
+    User.findByIdAndUpdate(req.user._id,{pic:picurl})
+    .then(result=>{
+        console.log(result)
+        res.json(result)
+    })
+    .catch(err=>console.log(err))
+})
+
 module.exports=router;
