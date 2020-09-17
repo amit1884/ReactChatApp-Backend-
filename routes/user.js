@@ -87,6 +87,7 @@ router.get('/userprofile/:id',requireLogin,(req,res)=>{
     const userid=req.params.id;
     console.log(userid)
     User.findById(userid)
+    .select("_id username email pic")
     .then(result=>{
         console.log(result)
         res.json(result)
@@ -101,6 +102,7 @@ router.get('/friendprofile/:id',requireLogin,(req,res)=>{
     const userid=req.params.id;
 
     User.findById(userid)
+    .select("_id username email pic")
     .then(result=>{
         // console.log(result)
         res.json(result)
@@ -115,6 +117,7 @@ router.post('/uploadpic',requireLogin,(req,res)=>{
     const picurl=req.body.pic;
     console.log(picurl)
     User.findByIdAndUpdate(req.user._id,{pic:picurl})
+    .select("_id username email pic")
     .then(result=>{
         console.log(result)
         res.json(result)
