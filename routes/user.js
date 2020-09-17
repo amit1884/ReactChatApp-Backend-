@@ -73,7 +73,7 @@ router.post('/addfriend',requireLogin,(req,res)=>{
 router.get('/getfriends',requireLogin,(req,res)=>{
 
     User.findById(req.user._id)
-    .populate("friendList.users","_id username email")
+    .populate("friendList.users","_id username email pic")
     .select("-password")
     .then(users=>{
         res.json(users)
