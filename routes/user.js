@@ -14,7 +14,7 @@ router.post('/search_user',(req,res)=>{
     if(text!=='')
     {
     User.find({})
-    .select("_id username email")
+    .select("_id username email pic")
     .then(founduser=>{
         const searcher = new FuzzySearch(founduser, ['username','email'], {
             caseSensitive: false,
