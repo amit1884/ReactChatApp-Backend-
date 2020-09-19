@@ -2,8 +2,6 @@ const express=require('express'),
       mongoose=require('mongoose'),
       bodyparser=require('body-parser'),
       cors = require("cors")
-const Cryptr = require('cryptr');
-const cryptr = new Cryptr('myTotalySecretKey');
 const socketio=require('socket.io');
 const http=require('http');
 const requireLogin = require('./Middleware/requireLogin');
@@ -52,8 +50,6 @@ mongoose.connect(process.env.MONGOURI,{useNewUrlParser: true,useUnifiedTopology:
                 console.log(err)
                 else{
                     console.log('oldChat : ')
-                    oldChat={...oldChat,text:cryptr.decrypt(oldChat.text)}
-                    console.log(oldChat)
                     res.json(oldChat)
                 }
             })
@@ -72,7 +68,7 @@ mongoose.connect(process.env.MONGOURI,{useNewUrlParser: true,useUnifiedTopology:
                     const chat={
                         room:data.room,
                         sender:data.sender,
-                        text:cryptr.encrypt(data.text)
+                        text:data.text
                     }
                     const Msg=new Messages(chat);
 
